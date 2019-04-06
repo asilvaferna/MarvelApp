@@ -9,13 +9,6 @@ function updateCharactersList(list, total) {
     };
 }
 
-function updateCharactersComics(list) {
-    return {
-        type: types.CHARACTERS_UPDATE_COMIC_LIST,
-        comicList: list
-    };
-}
-
 function updateFetching(value) {
     return {
         type: types.CHARACTERS_UPDATE_FETCHING,
@@ -45,22 +38,6 @@ export function fetchCharactersList() {
             console.log('Error: ', err);
         })
         .finally(() => dispatch(updateFetching(false)));
-    }
-}
-
-export function fetchCharactersComics(id) {
-    return (dispatch, getState) => {
-
-        api
-        .fetchComics(id)
-        .then(res => {
-            const list = res.data.data.results
-            console.log('ComicList: ', list);
-            dispatch(updateCharactersComics(list));
-        })
-        .catch(err => {
-            console.log('Error: ', err);
-        })
     }
 }
 

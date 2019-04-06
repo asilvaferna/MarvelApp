@@ -9,21 +9,7 @@ import Spinner from 'react-native-spinkit';
 class CharacterDetail extends Component {
     constructor(props) {
         super(props);
-        console.log('DetailsProps: ', props);
-        api
-        .fetchComics(this.props.character.id)
-        .then(res => {
-            this.setState({comics: res.data.data.results, isFetching: false});
-            console.log('Comics: ', this.state)
-        })
-        .catch(err => {
-            console.log('Error: ', err);
-        })
-    }
-
-    state = {
-        comics: [],
-        isFetching: true
+        props.fetchComics(props.character.id);
     }
 
     _renderItem = ({ item, index }) => {
@@ -64,8 +50,7 @@ class CharacterDetail extends Component {
     }
 
     render() {
-        const { character } = this.props;
-        const { comics, isFetching } = this.state;
+        const { character, list, isFetching } = this.props;
 
         const source = character 
             && character.thumbnail.path 
@@ -92,8 +77,8 @@ class CharacterDetail extends Component {
                 <View style={styles.descriptionContainer}>
                     <Text style={styles.descriptionTitle}>{'Comics 💥'}</Text>
                     <FlatList
-                        extraData={comics}
-                        data={comics}
+                        extraData={list}
+                        data={list}
                         keyExtractor={ this._keyExtractor }
                         renderItem={ this._renderItem }
                         horizontal={true}
