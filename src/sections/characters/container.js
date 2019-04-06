@@ -14,13 +14,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, props) => {
     return {
         fetchCharactersList: () => {
-            dispatch(CharactersActions.fetchCharactersList())
+            dispatch(CharactersActions.fetchCharactersList());
         },
-        updateCharactersSelected: house => {
-            dispatch(CharactersActions.updateCharactersSelected(house))
+        updateCharactersListOffset: () => {
+            dispatch(CharactersActions.updateCharactersListOffset());
         },
         fetchCharactersComics: id => {
-            dispatch(CharactersActions.fetchCharactersComics(id))
+            dispatch(CharactersActions.fetchCharactersComics(id));
         }
     };
 };

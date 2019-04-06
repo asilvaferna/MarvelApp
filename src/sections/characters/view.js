@@ -14,7 +14,6 @@ class Home extends Component {
     }
 
     _onCharacterTapped = character => {
-        this.props.updateCharactersSelected(character);
         console.log('TappedProps: ', this.props);
         Actions.CharacterDetail({ character });
     };
@@ -59,6 +58,18 @@ class Home extends Component {
         />;
     }
 
+    _onEndReached = ({ distanceFromEnd }) => {
+        const { list, isFetching } = this.props;
+        if (
+            distanceFromEnd > 100 
+            && !isFetching 
+            && list.length
+          ) {
+            this.props.updateCharactersListOffset();
+          }      
+      };
+    
+
     render() {
         const { list, isFetching } = this.props;
         console.log('Characters: ', list);
@@ -76,6 +87,8 @@ class Home extends Component {
                     ListHeaderComponent={_ => this._renderHeader()}
                     ListFooterComponent={_ => this._renderFooter(isFetching)}
                     refreshControl={this._renderRefreshControl(isFetching)}
+                    onEndReached={this._onEndReached}
+                    onEndReachedThreshold={0.8}
                 />
             </SafeAreaView>
         );

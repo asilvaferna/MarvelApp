@@ -13,33 +13,33 @@ function updateCharactersComics(list) {
     return {
         type: types.CHARACTERS_UPDATE_COMIC_LIST,
         comicList: list
-    }
+    };
 }
 
 function updateFetching(value) {
     return {
         type: types.CHARACTERS_UPDATE_FETCHING,
         value
-    }
+    };
 }
 
-export function updateCharactersSelected(value) {
+function updateOffset(value) {
     return {
-        type: types.CHARACTERS_UPDATE_SELECTED,
+        type: types.CHARACTERS_UPDATE_OFFSET,
         value
-    }
+    };
 }
 
 export function fetchCharactersList() {
     return (dispatch, getState) => {
+        const { offset, list } = getState().characters
         dispatch(updateFetching(true))
         api
-        .fetchCharacters()
+        .fetchCharacters(offset)
         .then(res => {
-            const list = res.data.data.results;
-            console.log('List: ', list);
-            const total = res.data.count
-            dispatch(updateCharactersList(list, total));
+            const newList = [...list, ...res.data.data.results];
+            const total = res.data.count;
+            dispatch(updateCharactersList(newList, total));
         })
         .catch(err => {
             console.log('Error: ', err);
@@ -63,3 +63,13 @@ export function fetchCharactersComics(id) {
         })
     }
 }
+
+export function updateCharactersListOffset() {
+    return function(dispatch, getState) {
+      const offset = getState().characters.offset + 10;
+      console.log('Offset', offset);
+      dispatch(updateOffset(offset));
+      dispatch(fetchCharactersList());
+    };
+  }
+  
